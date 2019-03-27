@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Import Export Fluctuations</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<script src="chart.bundle.js"></script>
+	<script src="utils.js"></script>
+	<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+        padding: 0% 10%;
+	}
+        h1{
+            padding: 1% 30%;
+        }
+        #butn{
+            vertical-align: middle;
+            align-self:center;
+            color: white;
+            background: #337AB7;
+            padding-bottom: 0.5%;
+        }
+        
+	</style>
+</head>
+
+<body>
+    
+        <!-- Multi Line Chart 1 -->
+    
+    <h1>Import Export Data based on Prices</h1>
+	<div style="width:75%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	
+	<script>
+        
+        cost = localStorage.getItem("Cost");
+        dates = localStorage.getItem("Dates");
+        cost_export = localStorage.getItem("Cost_Export");
+        var cost_array = cost.split(',');
+        var dates_array = dates.split(',');
+        var cost_export = cost_export.split(',');
+        //alert(cost_array);
+        /*
+        var Cost = Object.keys(cost).map(function(key) {
+        return [Number(key), cost[key]];
+        });
+        var Dates = Object.keys(dates).map(function(key) {
+        return [Number(key), dates[key]];
+        });
+        
+        alert(cost);
+        for(i=0;i<cost_array.length;i++){
+            /*
+            if(Cost[i]==undefined){
+                Cost[i]=100;
+            }
+            if(Dates[i]==undefined){
+                Dates[i]="21-Jan-17";
+            }
+            document.getElementById("table").innerHTML += " " +dates_array[i]+","
+        } */
+        //window.onload = alert(localStorage.getItem("Cost"));
+       // <button id="randomizeData">Randomize Data</button>
+		var lineChartData = {
+			labels: dates_array,
+			datasets: [{
+				label: 'Export',
+				borderColor: window.chartColors.red,
+				backgroundColor: window.chartColors.red,
+				fill: false,
+				data: cost_export,
+				yAxisID: 'y-axis-1',
+			}, {
+				label: 'Import',
+				borderColor: window.chartColors.blue,
+				backgroundColor: window.chartColors.blue,
+				fill: false,
+				data: cost_array,
+				yAxisID: 'y-axis-2'
+			}]
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = Chart.Line(ctx, {
+				data: lineChartData,
+				options: {
+					responsive: true,
+					hoverMode: 'index',
+					stacked: false,
+					title: {
+						display: true,
+						text: 'Import Export Fluctuations'
+					},
+					scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Days'
+                            }
+                        }],
+						yAxes: [{
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							scaleLabel: {
+                                display: true,
+                                labelString: 'Price in Rupees(Lacs)'
+                            },
+							position: 'left',
+							id: 'y-axis-1',
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 1000,
+                                stepValue: 400,
+                                max: 320000
+                            }
+                                },
+                                {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: false,
+							position: 'left',
+							id: 'y-axis-2',
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 1000,
+                                stepValue: 400,
+                                max: 320000
+                            }
+                                }]
+				}
+			}});
+		};
+		/*document.getElementById('randomizeData').addEventListener('click', function() {
+			lineChartData.datasets.forEach(function(dataset) {
+				dataset.data = dataset.data.map(function() {
+					return randomScalingFactor();
+				});
+			});
+			window.myLine.update();
+		});*/
+	</script>
+    
+   
+     <center>
+         <button class="btn btn-primary btn-lg" id="butn">
+         <a href="display2.html" style="text-decoration:none" >
+         <i class="fa fa-line-chart" aria-hidden="true"></i>
+
+         <p style="color:white">      Quantity Based Analysis</p>
+         </a></button>
+    </center>
+</body>
+
+</html>

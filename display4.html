@@ -1,0 +1,147 @@
+
+<!doctype html>
+<html>
+
+<head>
+	<title>MCX Exchange</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel=“stylesheet”/>
+	<script src="chart.bundle.js"></script>
+	<script src="utils.js"></script>
+	<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+        padding: 0% 10%;
+	}
+        h1{
+            padding: 1% 40%;
+        }
+        #butn{
+            vertical-align: middle;
+            align-self:center;
+            color: white;
+            background: #337AB7;
+        }
+        
+	</style>
+</head>
+
+<body>
+    
+        <!-- Multi Line Chart 4 -->
+    
+    <h1>Price Prediction</h1>
+	<div style="width:75%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	<script>
+    
+    
+        var train_dates = ["14-1","14-2","14-3","14-4","14-5","14-6","14-7","14-8","14-9","14-10","14-11","14-12","15-1","15-2","15-3","15-4","15-5","15-6","15-7","15-8","15-9","15-10","15-11","15-12","16-1","16-2","16-3","16-4","16-5","16-6","16-7","16-8","16-9","16-10","16-11","16-12","17-1","17-2","17-3","17-4","17-5","17-6","17-7","17-8","17-9","17-10","17-11","17-12","18-1"];
+        var train_values = ["170263.20","182340.47","390721.95","177335.14","189163.40","228454.61","343115.06","203296.21","232200.54","199999.82","149565.77","213877.22","239237.04","158172.06","270983.77","577838.77","400277.38","825722.72","529176.26","410135.69","314906.89","280405.08","237503.52","203999.05","164509.72","209590.15","177810.26","147571.67","159962.12","151388.09","340439.16","265941.31","163527.54","142443.57","215751.21","195971.91","172011.82","127222.01","135996.44","110225.50","132125.58","129643.11","233484.79","429868.78"];
+        var predict_values = ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","110225.50","132125.58","129643.11","233484.79","429868.78","366448.981072","316437.706181","240460.775568","334717.568187","356505.170993"];
+        
+        localStorage.setItem("Train_dates",train_dates);
+        localStorage.setItem("Pred_dates",pred_dates);
+        localStorage.setItem("Train_values",train_values);
+        localStorage.setItem("Predict_values",predict_values);
+        
+        train_dates = localStorage.getItem("Train_dates");
+        pred_dates = localStorage.getItem("Pred_dates");
+        train_values = localStorage.getItem("Train_values");
+        predict_values = localStorage.getItem("Predict_values");
+        
+        var train_dates = train_dates.split(',');
+        var pred_dates = pred_dates.split(',');
+        var train_values = train_values.split(',');
+        var predict_values = predict_values.split(',');
+        
+        var lineChartData = {
+			labels: train_dates,
+			datasets: [{
+				label: 'Total Price ( Known Values )',
+				borderColor: window.chartColors.blue,
+				backgroundColor: window.chartColors.blue,
+				fill: false,
+				data: train_values,
+				yAxisID: 'y-axis-1',
+                
+			},
+                      {
+				label: 'Total Price Prediction',
+				borderColor: window.chartColors.yellow,
+				backgroundColor: window.chartColors.yellow,
+				fill: false,
+				data: predict_values,
+				yAxisID: 'y-axis-2',
+                
+			}]
+        };
+       
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = Chart.Line(ctx, {
+				data: lineChartData,
+				options: {
+					responsive: true,
+					hoverMode: 'index',
+					stacked: false,
+					title: {
+						display: true,
+						text: 'Total Price Prediction in Lacs'
+					},
+					scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Days'
+                            }
+                        }],
+						yAxes: [{
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							scaleLabel: {
+                                display: true,
+                                labelString: 'Price in Rupees ( Lacs )'
+                            },
+							position: 'left',
+							id: 'y-axis-1',
+                            ticks: {
+                                beginAtZero: false,
+                                min: 100000,
+                                steps: 1000,
+                                stepValue: 500,
+                                max: 900000
+                            }
+                                },
+                               {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: false,
+							position: 'left',
+							id: 'y-axis-2',
+                           ticks: {
+                                beginAtZero: false,
+                                min: 100000,
+                                steps: 1000,
+                                stepValue: 500,
+                                max: 900000
+                            }
+                                }]
+				}
+			}});
+		};
+	</script>
+    
+   
+     <center>
+         <button class="btn btn-primary btn-lg" id="butn">
+         <a href="display1.html" style="text-decoration:none" >
+         <i class="fa fa-line-chart" aria-hidden="true"></i>
+
+         <p style="color:white">      Import Export Analysis</p>
+         </a></button>
+    </center>
+</body>
+
+</html>

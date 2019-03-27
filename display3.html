@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>MCX Exchange</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<script src="chart.bundle.js"></script>
+	<script src="utils.js"></script>
+	<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+        padding: 1% 10%;
+	}
+        h1{
+            padding: 1% 30%;
+        }
+        #butn{
+            vertical-align: middle;
+            align-self:center;
+            color: white;
+            background: #337AB7;
+        }
+        
+	</style>
+</head>
+
+<body>
+    
+        <!-- Multi Line Chart 1 -->
+    
+    <h1>MCX Exchange</h1>
+	<div style="width:75%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	<script>
+        
+        open = localStorage.getItem("open");
+        dates_mcx = localStorage.getItem("Dates_mcx");
+        high = localStorage.getItem("high");
+        low = localStorage.getItem("low");
+        close = localStorage.getItem("close");
+
+        var dates_mcx = dates_mcx.split(',');
+        var open_array = open.split(',');
+        var high_array = high.split(',');
+        var low_array = low.split(',');
+        var close_export = close.split(',');
+        
+        
+		var lineChartData = {
+			labels: dates_mcx,
+			datasets: [{
+				label: 'Open',
+				borderColor: window.chartColors.blue,
+				backgroundColor: window.chartColors.blue,
+				fill: false,
+				data: open_array,
+				yAxisID: 'y-axis-1',
+			}, {
+				label: 'High',
+				borderColor: window.chartColors.green,
+				backgroundColor: window.chartColors.green,
+				fill: false,
+				data: high_array,
+				yAxisID: 'y-axis-2'
+			},
+                      {
+				label: 'Low',
+				borderColor: window.chartColors.red,
+				backgroundColor: window.chartColors.red,
+				fill: false,
+				data: low_array,
+				yAxisID: 'y-axis-3'
+			},
+            {
+				label: 'Close',
+				borderColor: window.chartColors.grey,
+				backgroundColor: window.chartColors.grey,
+				fill: false,
+				data: low_array,
+				yAxisID: 'y-axis-4'
+			}]
+        
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = Chart.Line(ctx, {
+				data: lineChartData,
+				options: {
+					responsive: true,
+					hoverMode: 'index',
+					stacked: false,
+					title: {
+						display: true,
+						text: 'Import Export Fluctuations'
+					},
+					scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Days'
+                            }
+                        }],
+						yAxes: [{
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							scaleLabel: {
+                                display: true,
+                                labelString: 'Price in Rupees(Lacs)'
+                            },
+							position: 'left',
+							id: 'y-axis-1',
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 100,
+                                stepValue: 11,
+                                max: 1100
+                            }
+                                },
+                                {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: false,
+							position: 'left',
+							id: 'y-axis-2',
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 100,
+                                stepValue: 11,
+                                max: 1100
+                            }
+                                },
+                               {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: false,
+							position: 'left',
+							id: 'y-axis-3',
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 100,
+                                stepValue: 11,
+                                max: 1100
+                            }
+                                },
+                               {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: false,
+							position: 'left',
+							id: 'y-axis-4',
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 100,
+                                stepValue: 11,
+                                max: 1100
+                            }
+                                }]
+				}
+			}});
+		};
+	</script>
+    
+   
+     <center>
+         <button class="btn btn-primary btn-lg" id="butn">
+         <a href="display4.html" style="text-decoration:none" >
+         <i class="fa fa-line-chart" aria-hidden="true"></i>
+
+         <p style="color:white">      Price PRediction </p>
+         </a></button>
+    </center>
+</body>
+
+</html>
